@@ -2,7 +2,9 @@
 Hangman is a simple game for guessing something, in this case fruits
 """
 import random
+from os import system
 
+system("cls")
 stages = ['''
   +---+
   |   |
@@ -58,29 +60,25 @@ stages = ['''
       |
       |
 =========
-'''] # A visualization tool for the number of lifes
+''']  # A visualization tool for the number of lifes
 
-fruits = ["apple", "orange", "banana", "kiwi", "strawberry"]
-cities = ["new york", "tokyo", "kyoto", "london", "paris", "khartoum"]
+logo = ''' 
+ _                                             
+| |                                            
+| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
+| '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
+| | | | (_| | | | | (_| | | | | | | (_| | | | |
+|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                    __/ |                      
+                   |___/    '''
 
-source_dic = {"fruits": fruits, "cities": cities} # Let user choose what they want to guess
-
-attr = input("Please select 'cities' or 'fruits: '")
-if attr not in source_dic.keys():
-    attr = random.choice(list(source_dic.keys()))
-    print(f'You have written wrong input, you should guess from {attr}')
-    
-# Computer will choose the random word from the selected attribute
-target = list(random.choice(source_dic[attr]).lower())
-life = len(stages)-1 # The number of mistakes user can made
-selected_ch = []  # a list  to handle repeated input from users
-flag = False # Flag to warn users not to continue enter same character again
+print(f'{logo}\n\n')
 
 
 def create_hidden_word(target):
     current_word = list("-" * len(target))
     for i, ch in enumerate(target):
-        if ch == " ": # Space should be given
+        if ch == " ":  # Space should be given
             current_word[i] = ch
     return current_word
 
@@ -108,10 +106,28 @@ def lost(life):
         return False
 
 
+fruits = ["apple", "orange", "banana", "kiwi", "strawberry"]
+cities = ["new york", "tokyo", "kyoto", "london", "paris", "khartoum"]
+
+# Let user choose what they want to guess
+source_dic = {"fruits": fruits, "cities": cities}
+
+attr = input("Please select 'cities' or 'fruits': ")
+if attr not in source_dic.keys():
+    attr = random.choice(list(source_dic.keys()))
+    print(f'You have written wrong input, you should guess from {attr}')
+
+# Computer will choose the random word from the selected attribute
+target = list(random.choice(source_dic[attr]).lower())
+life = len(stages)-1  # The number of mistakes user can made
+selected_ch = []  # a list  to handle repeated input from users
+flag = False  # Flag to warn users not to continue enter same character again
+
 current_word = create_hidden_word(target)
 print("".join(current_word))
 while True:
     ch = input("Please select a character: ").lower()
+    system("cls")
     if ch not in selected_ch:  # Check if we used this character before
         selected_ch.append(ch)
     else:
@@ -131,13 +147,12 @@ while True:
 
     if ch in target:  # If the ch in the target word
         current_word = add_charcter_to_current(current_word, target, ch)
-        if current_word == target:  #If all charcters were found
+        if current_word == target:  # If all charcters were found
             print("YOU WON 🤠!!!!!!")
             print(f"The correct guess is: {''.join(current_word).title()}\n\n")
             break
         else:
             status(current_word, life)
-            
 
     else:
         life -= 1
