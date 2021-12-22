@@ -1,4 +1,4 @@
-from random import randint
+from random import choice
 from art import logo, vs
 from data import data
 from os import system
@@ -9,27 +9,31 @@ def print_logo():
     print(logo)
 
 
-# Select random A and B from data and make sure A and B do not equal
-def get_data(A=None, B=None):
+def show_card(account):
+    name = account["name"]
+    description = account["description"]
+    country = account["country"]
+    return f" is {name}, {description} from {country}."
+
+
+def show_battle(account_a, account_b):
+    print("Account A" + show_card(account_a))
+    print(vs)
+    print("Account B" + show_card(account_b))
+
+
+def get_data(account_a=None, account_b=None):
     """Get a random dic from the data and take case A and B to make sure you do not get the same past cases or equal cases."""
-    case = data[randint(0, len(data) - 1)]
-    while case == A or case == B:
-        case = data[randint(0, len(data) - 1)]
+    case = choice(data)
+    while case == account_a or case == account_b:
+        case = choice(data)
     return case
 
 
-def show_card(A, holder="A"):
-    print(f"{holder} is {A['name'], A['description']} from {A['country']}.")
-
-
-def show_battle(A, B):
-    show_card(A, "A")
-    print(vs)
-    show_card(B, "B")
-
-
-def highest_followers(A, B):
-    return max(A["follower_count"], B["follower_count"])
+def most_famous(account_a, account_b):
+    """Winner is the one with the highest score"""
+    return max(account_a["follower_count"], account_b["follower_count"])
+    # highest_followers
 
 
 def play_higher_lower():
@@ -37,26 +41,29 @@ def play_higher_lower():
     # Initialize score
     score = 0
     # Initialize case A and case B
-    A = B = None
-    A = get_data()
-    B = get_data(A=A)
+    account_a = account_b = None
+    account_a = get_data()
+    account_b = get_data(account_a=account_a)
 
-    accounts = {"A": A, "B": B}
+    accounts = {"A": account_a, "B": account_b}
     # Let the user Choose which have more followers
     play = True
     while play:
         show_battle(accounts["A"], accounts["B"])
         user_choice = input(f"Which has more followers? [A] or [B] ").upper()
-        if accounts[user_choice]["follower_count"] == highest_followers(A, B):
+        if accounts[user_choice]["follower_count"] == most_famous(account_a, account_b):
             print_logo()
             score += 1
             print(f"\nRight choice, you score is {score} point[s].\n")
             # make the write choice "A" and get new B
             if user_choice == "A":
-                accounts["B"] = get_data(A, B)
+                accounts["B"] = get_data(account_a, account_b)
+
+
+# TODO 
 
             elif user_choice == "B":
-                new_data = get_data(A, B)
+                new_data = get_data(account_a, account_b)
                 accounts["A"] = accounts["B"]
                 accounts["B"] = new_data
 
