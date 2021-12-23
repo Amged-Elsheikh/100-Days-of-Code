@@ -1,7 +1,8 @@
 from os import system
 """The coffe machine can take orders, check for payment and resources, deliver the coffee and return exchange, virtually.
 
-If I returned to this project in the future, I will add a method to show the user available drinks only."""
+If I returned to this project in the future, I will add a method to show the user available drinks only and reject if exchange is not possible (this is rear but can happen only if user keep giving 1000¥ notes)
+"""
 
 logo = '''
                                             o$$$$$$oo
@@ -156,7 +157,7 @@ class CoffeeMachine:
                     f"Your {order} is ready. Please enjoy it! and come back again")
                 # Add money first to make sure you have enough money for return
                 self.__add_money(total_payment, money_list)
-                self.__return_exchange(
+                self.__return_change(
                     total_payment, self.menu[order]["cost"])
                 # Count profit and update record history
                 self.__profit += self.menu[order]["cost"]
@@ -196,26 +197,25 @@ class CoffeeMachine:
         self.__money_counter["50 yen"] += money_list[3]
         self.__money_counter["10 yen"] += money_list[4]
 
-    def __return_exchange(self, total_payment, order_cost):
-        exchange = total_payment - order_cost
-        self.__total_money -= exchange
-        print(f"Here is your {exchange}¥ exchange. Don't forget it please")
-        returned_1000 = exchange // 1000
-        exchange -= returned_1000*1000
+    def __return_change(self, total_payment, order_cost):
+        change = total_payment - order_cost
+        self.__total_money -= change
+        print(f"Here is your {change}¥ change. Don't forget it please")
+        returned_1000 = change // 1000
+        change -= returned_1000*1000
 
-        returned_500 = exchange // 500
-        exchange -= returned_500*500
+        returned_500 = change // 500
+        change -= returned_500*500
 
-        returned_100 = exchange // 100
-        exchange -= returned_100*100
+        returned_100 = change // 100
+        change -= returned_100*100
 
-        returned_50 = exchange // 50
-        exchange -= returned_50*50
+        returned_50 = change // 50
+        change -= returned_50*50
 
-        returned_10 = exchange // 10
-        exchange -= returned_10*10
+        returned_10 = change // 10
+        change -= returned_10*10
 
-        assert(exchange == 0.0), f"Exchange is {exchange} Yen"
         self.__money_counter["notes"] -= returned_1000
         self.__money_counter["500 yen"] -= returned_500
         self.__money_counter["100 yen"] -= returned_100
