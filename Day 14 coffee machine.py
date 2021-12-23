@@ -4,53 +4,56 @@ from os import system
 If I returned to this project in the future, I will add a method to show the user available drinks only."""
 
 logo = '''
-                                    o$$$$$$oo
-                                 o$"        "$oo
-                                 $   o""""$o  "$o
-                                "$  o  "o  "o   $
-                                "$   $o $   $   o$
-                                 "$       o$"$  o$
-                                  "$ooooo$$  $  o$
-                        o$ """ $     " $$$   "  $
-                      o$        $o    $$"   "   "
-                     $$  $ " $   $$$o"$    o  o$"
-                     $"  o "" $   $" "   o"  $$
-                     $o  " "  $  o$"   o"  o$"
-                      "$o    $$  $   o"  o$$"
-                       ""o$o"$"  $oo"  o$"
-                        o$$ $   $$$  o$$
-                        o" o oo""  "" "$o
-                       o$o" ""          $
-                      $" " o"   " " "   "o
-                     $$ "  "  o$ o$o "   $
-                    o$ $  $  o$$ "  "   ""
-                    o  $ $"  " "o      o$
-                    $ o         $o$oo$""
-                   $o $   o  o  o"$$
-                   $o  o  $  $    "$o
-                   $o  $   o  $  $ "o
-                    $  $   "o  $  "o"$o
-                    $   "   o   $   o $$
-            $o$o$o$o$$o$$$o$$o$o$$o$$o$$$o$o$o$o$o$o$o$o$o$ooo
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   " $$$$$
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$      "$$$$
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     o$$$$"
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ooooo$$$$
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"""""
-            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-"$o$o$o$o$o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-    "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"""
-       """""""""""""""""""""""""""""""""""""""""""""""""""""
-       '''
+                                            o$$$$$$oo
+                                        o$"        "$oo
+                                        $   o""""$o  "$o
+                                        "$  o  "o  "o   $
+                                        "$   $o $   $   o$
+                                        "$       o$"$  o$
+                                        "$ooooo$$  $  o$
+                                o$ """ $     " $$$   "  $
+                            o$        $o    $$"   "   "
+                            $$  $ " $   $$$o"$    o  o$"
+                            $"  o "" $   $" "   o"  $$
+                            $o  " "  $  o$"   o"  o$"
+                            "$o    $$  $   o"  o$$"
+                            ""o$o"$"  $oo"  o$"
+                                o$$ $   $$$  o$$
+                                o" o oo""  "" "$o
+                            o$o" ""          $
+                            $" " o"   " " "   "o
+                            $$ "  "  o$ o$o "   $
+                            o$ $  $  o$$ "  "   ""
+                            o  $ $"  " "o      o$
+                            $ o         $o$oo$""
+                        $o $   o  o  o"$$
+                        $o  o  $  $    "$o
+                        $o  $   o  $  $ "o
+                            $  $   "o  $  "o"$o
+                            $   "   o   $   o $$
+                    $o$o$o$o$$o$$$o$$o$o$$o$$o$$$o$o$o$o$o$o$o$o$o$ooo
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   " $$$$$
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$      "$$$$
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     o$$$$"
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ooooo$$$$
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"""""
+                    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+        "$o$o$o$o$o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+            "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"""
+            """""""""""""""""""""""""""""""""""""""""""""""""""""
+                '''
+
 
 def print_logo():
     system("cls")
     print(logo)
+
+
 class CoffeeMachine:
     def __init__(self):
         # Turn On the machine
@@ -59,12 +62,14 @@ class CoffeeMachine:
         self.__water = 7000
         self.__milk = 5000
         self.__coffee = 1000
-        # Initialize coins count
+        # Initialize coins count and profit
+        self.__profit = 0
         self.__thousand_yen = 0
         self.__five_hundred_yen = 20
         self.__hundred_yen = 100
         self.__fifty_yen = 200
         self.__ten_yen = 500
+        self.__orders_counter = {"Espresso": 0, "Latte": 0, "Cappuccino": 0}
 
         self.__total_money = self.__thousand_yen*1000 + self.__five_hundred_yen * 500 +\
             self.__hundred_yen*100 + self.__fifty_yen*50 + self.__ten_yen*10
@@ -82,6 +87,15 @@ class CoffeeMachine:
         self.menu = {"espresso": self.__espresso,
                      "latte": self.__latte, "cappuccino": self.__cappuccino}
 
+    def turn_on(self):
+        if not self.working:
+            self.working = True
+        else:
+            print("Machine already ON")
+
+    def get_report(self):
+        self.__report()
+
     def take_order(self):
         if not self.working:
             if input("Machine is off. Do you want to turn it on? [y/n]").lower() == "y":
@@ -97,7 +111,7 @@ class CoffeeMachine:
             turn off: to turn off the machine
             """
             print(screen)
-            try :
+            try:
                 order = input(
                     "Enter the first character of the order only. If you want to take other action write it as it is. ").lower()
             except:
@@ -131,6 +145,7 @@ class CoffeeMachine:
         if total_payment < self.menu[order]["cost"]:
             print(
                 f"Sorry you do not have enough money for {order}, it cost {self.menu[order]['cost']}. Here is your money back")
+            input("Press Enter to continue.....")
         else:
             if self.__confirm_enough_resources(order):
                 # deduct resources
@@ -143,6 +158,10 @@ class CoffeeMachine:
                 self.__add_money(total_payment, money_list)
                 self.__return_exchange(
                     total_payment, self.menu[order]["cost"])
+                # Count profit and update record history
+                self.__profit += self.menu[order]["cost"]
+                self.__orders_counter[order.title()] += 1
+                input("Press Enter to continue.....")
 
     def __take_money(self):
         thousnds = int(input("How many 1000 yen notes you want to insert? "))
@@ -204,20 +223,27 @@ class CoffeeMachine:
         self.__money_counter["10 yen"] -= returned_10
 
     def __report(self) -> str:
-        print(
-            f"Water: {self.__water} ml.\nmilk : {self.__milk} ml.\ncoffe: {self.__coffee} g.")
-        print(
-            f"1000 notes: {self.__thousand_yen}.\n500 yen coins: {self.__five_hundred_yen}.")
-        print(
-            f"100 yen coins: {self.__hundred_yen}.\n50 yen coins: {self.__fifty_yen}.")
-        print(f"10 yen coins: {self.__ten_yen}.\nTotal: {self.__total_money}¥")
-        print("Report End.\n\n")
+        report = f"""
+        Available Resources:
+                        Water: {self.__water} ml.
+                        milk : {self.__milk} ml.
+                        coffe: {self.__coffee} g.
+        Money Status:
+                        1000 notes: {self.__thousand_yen}.
+                        500 yen coins: {self.__five_hundred_yen}.
+                        100 yen coins: {self.__hundred_yen}.
+                        50 yen coins: {self.__fifty_yen}.
+                        10 yen coins: {self.__ten_yen}.
+                        Total: {self.__total_money}¥
+                        Total profit: {self.__profit}¥
+        Orders Count:
+                        Espresso: {self.__orders_counter["Espresso"]} order.
+                        "Latte": {self.__orders_counter["Latte"]} order.
+                        "Cappuccino": {self.__orders_counter["Cappuccino"]} order.
 
-    def turn_on(self):
-        if not self.working:
-            self.working = True
-        else:
-            print("Machine already ON")
+        #################### Report END ####################\n\n
+        """
+        print(report)
 
 
 if __name__ == '__main__':
@@ -226,3 +252,4 @@ if __name__ == '__main__':
     while machine_1.working:
         print_logo()
         machine_1.take_order()
+    machine_1.get_report()
