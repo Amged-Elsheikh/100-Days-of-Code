@@ -1,15 +1,64 @@
 from os import system
-"""The coffe machine can take orders, check for payment and resources, deliver the coffee and return exchange, virtually."""
+"""The coffe machine can take orders, check for payment and resources, deliver the coffee and return exchange, virtually.
 
-system("cls")
+If I returned to this project in the future, I will add a method to show the user available drinks only."""
 
+logo = '''
+                                    o$$$$$$oo
+                                 o$"        "$oo
+                                 $   o""""$o  "$o
+                                "$  o  "o  "o   $
+                                "$   $o $   $   o$
+                                 "$       o$"$  o$
+                                  "$ooooo$$  $  o$
+                        o$ """ $     " $$$   "  $
+                      o$        $o    $$"   "   "
+                     $$  $ " $   $$$o"$    o  o$"
+                     $"  o "" $   $" "   o"  $$
+                     $o  " "  $  o$"   o"  o$"
+                      "$o    $$  $   o"  o$$"
+                       ""o$o"$"  $oo"  o$"
+                        o$$ $   $$$  o$$
+                        o" o oo""  "" "$o
+                       o$o" ""          $
+                      $" " o"   " " "   "o
+                     $$ "  "  o$ o$o "   $
+                    o$ $  $  o$$ "  "   ""
+                    o  $ $"  " "o      o$
+                    $ o         $o$oo$""
+                   $o $   o  o  o"$$
+                   $o  o  $  $    "$o
+                   $o  $   o  $  $ "o
+                    $  $   "o  $  "o"$o
+                    $   "   o   $   o $$
+            $o$o$o$o$$o$$$o$$o$o$$o$$o$$$o$o$o$o$o$o$o$o$o$ooo
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   " $$$$$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$      "$$$$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     o$$$$"
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ooooo$$$$
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"""""
+            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+"$o$o$o$o$o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"""
+       """""""""""""""""""""""""""""""""""""""""""""""""""""
+       '''
 
+def print_logo():
+    system("cls")
+    print(logo)
 class CoffeeMachine:
     def __init__(self):
+        # Turn On the machine
+        self.working = False
         # Initialize resopurces
-        self.__water = 70
-        self.__milk = 50
-        self.__coffee = 500
+        self.__water = 7000
+        self.__milk = 5000
+        self.__coffee = 1000
         # Initialize coins count
         self.__thousand_yen = 0
         self.__five_hundred_yen = 20
@@ -34,26 +83,48 @@ class CoffeeMachine:
                      "latte": self.__latte, "cappuccino": self.__cappuccino}
 
     def take_order(self):
-        print("Hello. How can I help you?")
-        print(
-            f"[E]spresso: {self.__espresso['cost']}¥.\n[L]atte: {self.__latte['cost']}¥.\n[C]appuccino: {self.__cappuccino['cost']}¥")
-        order = input(
-            "I can only understand the first character :). Select please: ").lower()
-        self.__fullfil_order(order)
+        if not self.working:
+            if input("Machine is off. Do you want to turn it on? [y/n]").lower() == "y":
+                self.working = True
+            else:
+                print("Machine is off.")
+                return
+        if self.working:
+            screen = f"""Hello. How can I help you?
+            [E]spresso: {self.__espresso['cost']}¥.
+            [L]atte: {self.__latte['cost']}¥.
+            [C]appuccino: {self.__cappuccino['cost']}¥
+            turn off: to turn off the machine
+            """
+            print(screen)
+            try :
+                order = input(
+                    "Enter the first character of the order only. If you want to take other action write it as it is. ").lower()
+            except:
+                order = "Nothing"
+            self.__fullfil_order(order)
 
     def __fullfil_order(self, order):
         if order[0] == "e":
             order = "espresso"
+
         elif order[0] == "l":
             order = "latte"
+
         elif order[0] == "c":
             order = "cappuccino"
+
         elif order == "report":
             self.__report()
+            return
+        elif order == "turn off":
+            self.working = False
+            print("Machine is closed")
             return
         else:
             print(
                 "Sorry. Wrong order, I can't help you. This is your money back as it is.")
+            input("Press Enter to to return to menu...")
             return
         total_payment, money_list = self.__take_money()
         print(f"You're paying {total_payment}¥")
@@ -70,7 +141,8 @@ class CoffeeMachine:
                     f"Your {order} is ready. Please enjoy it! and come back again")
                 # Add money first to make sure you have enough money for return
                 self.__add_money(total_payment, money_list)
-                self.__return_exchange(total_payment, self.menu[order]["cost"])
+                self.__return_exchange(
+                    total_payment, self.menu[order]["cost"])
 
     def __take_money(self):
         thousnds = int(input("How many 1000 yen notes you want to insert? "))
@@ -101,7 +173,7 @@ class CoffeeMachine:
         self.__total_money += total_payment
         self.__money_counter["notes"] += money_list[0]
         self.__money_counter["500 yen"] += money_list[1]
-        self.__money_counter["100"] += money_list[2]
+        self.__money_counter["100 yen"] += money_list[2]
         self.__money_counter["50 yen"] += money_list[3]
         self.__money_counter["10 yen"] += money_list[4]
 
@@ -124,12 +196,12 @@ class CoffeeMachine:
         returned_10 = exchange // 10
         exchange -= returned_10*10
 
+        assert(exchange == 0.0), f"Exchange is {exchange} Yen"
         self.__money_counter["notes"] -= returned_1000
         self.__money_counter["500 yen"] -= returned_500
         self.__money_counter["100 yen"] -= returned_100
         self.__money_counter["50 yen"] -= returned_50
         self.__money_counter["10 yen"] -= returned_10
-        assert(exchange == 0.0), f"Exchange is {exchange} Yen"
 
     def __report(self) -> str:
         print(
@@ -141,13 +213,16 @@ class CoffeeMachine:
         print(f"10 yen coins: {self.__ten_yen}.\nTotal: {self.__total_money}¥")
         print("Report End.\n\n")
 
+    def turn_on(self):
+        if not self.working:
+            self.working = True
+        else:
+            print("Machine already ON")
+
 
 if __name__ == '__main__':
     machine_1 = CoffeeMachine()
-
-    machine_1.take_order()
-    machine_1.take_order()
-    machine_1.take_order()
-    machine_1.take_order()
-    machine_1.take_order()
-    machine_1.take_order()
+    machine_1.turn_on()
+    while machine_1.working:
+        print_logo()
+        machine_1.take_order()
