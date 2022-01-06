@@ -29,26 +29,23 @@ def draw_h_dots(rgb_colors, dot_size, gap, steps):
 
 
 if __name__ == '__main__':
-    dot_size = 20
+    dot_size = 40
     gap = 50
+    # To get good plot make sure v_steps==h_steps
     h_steps = 20
-    v_steps = 20
+    v_steps = 10
+    width=h_steps*gap
+    height=v_steps*gap
+
     t.colormode(255)
     t.penup()
     t.speed("fastest")
-    t.hideturtle()
+    # t.hideturtle()
     screen = t.Screen()  # define the screen object
-
+    screen.setup(width+dot_size/2, height+dot_size/2)
     change_directory()
     rgb_colors = extract_colors('Economy-Mince.jpg', 40)
-    screen = t.Screen()  # define the screen object
-    
-    # to check from where to start on your screen uncoment the next two line and comment rest of the code except the screen part. count the number of dots and update number_of_dots_to_start value.
-    t.setheading(225)
-    # draw_h_dots(rgb_colors,dot_size,gap,20)
-    number_of_dots_to_start = 14
-    t.forward(number_of_dots_to_start*gap)
-    t.setheading(0)
+    t.goto(x=(-width+gap)/2, y=(-height+gap)/2)
 
     start_x, current_y = t.pos()
     for i in range(v_steps):
