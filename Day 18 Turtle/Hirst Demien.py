@@ -32,14 +32,17 @@ if __name__ == '__main__':
     v_steps = 20
     t.colormode(255)
     t.penup()
-    t.speed("fast")
+    t.speed("fastest")
+    t.hideturtle()
+
     change_directory()
     rgb_colors = extract_colors('Economy-Mince.jpg', 40)
     
-    ##### to check from where to start on your screen uncoment the next two line and comment rest of the code except the screen part
+    ##### to check from where to start on your screen uncoment the next two line and comment rest of the code except the screen part. count the number of dots and update number_of_dots_to_start value.
     t.setheading(225)
     # draw_h_dots(rgb_colors,dot_size,gap,20)
-    t.forward(14*50)
+    number_of_dots_to_start = 14
+    t.forward(number_of_dots_to_start*gap)
     t.setheading(0)
     start_x, current_y = t.pos()
     for i in range(v_steps):
