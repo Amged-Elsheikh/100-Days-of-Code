@@ -1,6 +1,7 @@
 import random
 import pygame
 from pygame.math import Vector2
+from time import sleep
 import sys
 import os
 
@@ -32,8 +33,7 @@ class FRUIT:
 class SNAKE:
     def __init__(self) -> None:
         # store snake body positions in a list of vectors
-        self.body = [Vector2(i, 10) for i in range(10, 13)]
-        self.direction = Vector2(-1, 0)
+        self.create_snake()
         self.new_block = False
         self.crunch_sound = pygame.mixer.Sound(
             os.path.join("Sound", "crunch.wav"))
@@ -73,6 +73,10 @@ class SNAKE:
             os.path.join("Graphics", "body_br.png")).convert_alpha()
         self.body_bl = pygame.image.load(
             os.path.join("Graphics", "body_bl.png")).convert_alpha()
+
+    def create_snake(self):
+        self.body = [Vector2(i, 10) for i in range(10, 13)]
+        self.direction = Vector2(-1, 0)
 
     def draw_head(self, block_rect):
         direction = self.body[0] - self.body[1]
@@ -153,6 +157,8 @@ class MAIN:
     def __init__(self) -> None:
         self.snake = SNAKE()
         self.fruit = FRUIT()
+        with open("highest_Score.txt") as f:   
+            self.highest_score = int(f.read())
 
     def draw_grass(self):
         grass_color = (167, 209, 61)
@@ -177,15 +183,24 @@ class MAIN:
             self.snake.new_block = True
 
     def draw_score(self):
-        score_text = str(len(self.snake.body)-3)
+        current_score = len(self.snake.body)-3
+        score_text = str(current_score)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size*cell_number - 60)
         score_y = int(cell_size*cell_number - 40)
+        highest_score_y = int(cell_size*cell_number - 20)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = self.fruit.apple.get_rect(
             midright=(score_rect.left, score_rect.centery))
         screen.blit(score_surface, score_rect)
         screen.blit(self.fruit.apple, apple_rect)
+        if self.highest_score < current_score:
+            self.highest_score = current_score
+        highest_score_text = f"Higest score: {self.highest_score}"
+        highest_score_surface = game_font.render(highest_score_text, True, (56, 74, 12))
+        highest_score_x = int(cell_size*cell_number - 140)
+        score_rect = highest_score_surface.get_rect(center=(highest_score_x, highest_score_y))
+        screen.blit(highest_score_surface, score_rect)
 
     def check_game_over(self):
         head = self.snake.body[0]
@@ -197,8 +212,14 @@ class MAIN:
             self.game_over()
 
     def game_over(self):
-        pygame.quit()
-        sys.exit()
+        # pygame.quit()
+        # sys.exit()
+        with open("highest_Score.txt", "w") as f:   
+            f.write(str(self.highest_score))
+        sleep(1)
+        self.snake.body.clear()
+        self.snake.create_snake()
+        self.fruit.new_fruit()
 
     def update(self):
         self.snake.move_snake()
@@ -213,50 +234,56 @@ class MAIN:
 
 
 # initilate the game
-pygame.mixer.pre_init(44100,-16,2,512)
-pygame.init()
-# We do not work pixels, instead with grids so we need to define grid size.
-cell_size = 40
-cell_number = 20
-FPS = 60
-screen = pygame.display.set_mode(
-    (cell_size*cell_number, cell_size*cell_number))  # width, height
-clock = pygame.time.Clock()
+if __name__ == "__main__":
+    current_path = os.getcwd()
+    if "snake" not in current_path:
+        snake_path = list(filter(lambda x: "snake" in x, os.listdir()))[0]
+        os.chdir(os.path.join(current_path, snake_path))
 
-main_game = MAIN()
+    pygame.mixer.pre_init(44100, -16, 2, 512)
+    pygame.init()
+    # We do not work pixels, instead with grids so we need to define grid size.
+    cell_size = 40
+    cell_number = 20
+    FPS = 60
+    screen = pygame.display.set_mode(
+        (cell_size*cell_number, cell_size*cell_number))  # width, height
+    clock = pygame.time.Clock()
 
-dirc = {"up": Vector2(0, -1),
-        "down": Vector2(0, 1),
-        "right": Vector2(1, 0),
-        "left": Vector2(-1, 0),
-        }
-SCREEN_UPDATE = pygame.USEREVENT
-game_font = pygame.font.Font(os.path.join(
-    "Font", "PoetsenOne-Regular.ttf"), 25)
-pygame.time.set_timer(SCREEN_UPDATE, 150)
-# Create the game loop
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == SCREEN_UPDATE:
-            main_game.update()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                if main_game.snake.direction != dirc["down"]:
-                    main_game.snake.direction = dirc["up"]
-            elif event.key == pygame.K_DOWN:
-                if main_game.snake.direction != dirc["up"]:
-                    main_game.snake.direction = dirc["down"]
-            elif event.key == pygame.K_RIGHT:
-                if main_game.snake.direction != dirc["left"]:
-                    main_game.snake.direction = dirc["right"]
-            elif event.key == pygame.K_LEFT:
-                if main_game.snake.direction != dirc["right"]:
-                    main_game.snake.direction = dirc["left"]
+    main_game = MAIN()
 
-    screen.fill((175, 215, 70))
-    main_game.draw_elements()
-    pygame.display.update()
-    clock.tick(FPS)
+    dirc = {"up": Vector2(0, -1),
+            "down": Vector2(0, 1),
+            "right": Vector2(1, 0),
+            "left": Vector2(-1, 0),
+            }
+    SCREEN_UPDATE = pygame.USEREVENT
+    game_font = pygame.font.Font(os.path.join(
+        "Font", "PoetsenOne-Regular.ttf"), 25)
+    pygame.time.set_timer(SCREEN_UPDATE, 150)
+    # Create the game loop
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == SCREEN_UPDATE:
+                main_game.update()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    if main_game.snake.direction != dirc["down"]:
+                        main_game.snake.direction = dirc["up"]
+                elif event.key == pygame.K_DOWN:
+                    if main_game.snake.direction != dirc["up"]:
+                        main_game.snake.direction = dirc["down"]
+                elif event.key == pygame.K_RIGHT:
+                    if main_game.snake.direction != dirc["left"]:
+                        main_game.snake.direction = dirc["right"]
+                elif event.key == pygame.K_LEFT:
+                    if main_game.snake.direction != dirc["right"]:
+                        main_game.snake.direction = dirc["left"]
+
+        screen.fill((175, 215, 70))
+        main_game.draw_elements()
+        pygame.display.update()
+        clock.tick(FPS)
