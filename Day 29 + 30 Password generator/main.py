@@ -10,11 +10,6 @@ from numpy import tile
 import pyperclip
 import json
 
-if "29" not in os.getcwd():
-    sub_folder = list(filter(lambda x: "29" in x, os.listdir()))
-    if sub_folder:
-        os.chdir(os.path.join(os.getcwd(), sub_folder[0]))
-
 PASSWORD_LENGTH = 18
 # ------------------------- PASSWORD GENERATOR ---------------------------- #
 
@@ -110,6 +105,11 @@ def update_websites_list(new_data, file_name):
 # ---------------------------- UI SETUP ------------------------------- #
 if __name__ == '__main__':
     # Create main screen
+    if "29" not in os.getcwd():
+        sub_folder = list(filter(lambda x: "29" in x, os.listdir()))
+        if sub_folder:
+            os.chdir(os.path.join(os.getcwd(), sub_folder[0]))
+            
     master = Tk()
     master.title("Password Manager")
     master.config(padx=50, pady=50)

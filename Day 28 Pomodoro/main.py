@@ -4,11 +4,6 @@ import os
 from tkinter import ttk
 from PIL import Image, ImageTk
 
-if "28" not in os.getcwd():
-    sub_folder = list(filter(lambda x: "28" in x, os.listdir()))
-    if sub_folder:
-        os.chdir(os.path.join(os.getcwd(), sub_folder[0]))
-
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -77,6 +72,13 @@ def count_down(count):
 
 # ---------------------------- UI SETUP ------------------------------- #
 if __name__ == '__main__':
+    
+    DAY = "28"
+    if DAY not in os.getcwd():
+        sub_folder = list(filter(lambda x: DAY in x, os.listdir()))
+        if sub_folder:
+            os.chdir(os.path.join(os.getcwd(), sub_folder[0]))
+
     master = Tk()
     master.title("Pomodoro")
     master.config(padx=100, pady=50, bg=YELLOW)
