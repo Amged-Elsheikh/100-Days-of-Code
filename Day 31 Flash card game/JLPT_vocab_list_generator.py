@@ -20,6 +20,7 @@ def get_url(N: int):
 def get_jlpt_vocab(url: str):
     # Load the webpage content
     r = requests.get(url)
+    r.raise_for_status()
     # Convert to a beautiful soup object
     soup = bs(r.content)
     df = pd.DataFrame(columns=["Kanji", "Furigana", "translation"])
