@@ -61,7 +61,7 @@ def is_known():
 
 
 if __name__ == '__main__':
-    jlpt_lv = 5
+    jlpt_lv = 2
 
     DAY = "31"
     if DAY not in os.getcwd():
