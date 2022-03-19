@@ -1,11 +1,14 @@
 import os
 import requests
 from twilio.rest import Client
+from dotenv import load_dotenv
+load_dotenv()
 
+OPEN_WEATHER_MAP_API = os.getenv("OPEN_WEATHER_MAP_API")
 
 def send_SMS():
     account_sid = 'ACfde611c58638a773bfc75fc71f920d53'
-    auth_token = ''
+    auth_token = os.getenv("TWILIO_TOKEN")
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
@@ -19,7 +22,7 @@ TIME_CHECKING_LENGTH=14  # hours
 url="http://api.openweathermap.org/data/2.5/onecall"
 parameters={"lon": 140.8443875228813,
               "lat": 38.25452949320056,
-              "appid": "",
+              "appid": OPEN_WEATHER_MAP_API,
               "units": "metric",
               "exclude": 'current,minutely,daily'
               }
