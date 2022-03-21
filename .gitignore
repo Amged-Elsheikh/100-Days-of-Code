@@ -1,4 +1,5 @@
 .vscode
 .*.csv
 __pycache__
+passwords_data.json
 .env
