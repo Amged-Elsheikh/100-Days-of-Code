@@ -1,1 +1,0 @@
-<p>Those 4 days are introduction for HTML&CSS. The real project is crating my-personal-webpage. You can see my webpage from <a href="https://amged-elsheikh.github.io/" target="_blank">here</a></.</p>
