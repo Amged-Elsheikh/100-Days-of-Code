@@ -36,10 +36,11 @@ def get_latest_news(coin_name: str, news_count: int) -> list:
 
     news_params = {"q": coin_name,
                    "language": "en",
-                   "sortBy": "publishedAt",
-                   "apiKey": NEWS_API}
+                   "sortBy": "publishedAt"}
 
-    r = requests.get(news_url, news_params)
+    headers = {"Authorization": NEWS_API}
+
+    r = requests.get(news_url, news_params, headers=headers)
     r.raise_for_status()
     news_data = r.json()['articles'][:news_count]
     return news_data
