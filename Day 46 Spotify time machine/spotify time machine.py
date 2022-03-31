@@ -28,10 +28,22 @@ class Spotify_API:
         # Cache the Token to the system
         self._sp.current_user()
 
-    def search(self, hit):
-        uri = self._sp.search(q=f"track:{hit}", market="US")[
-            'tracks']['items'][0]["uri"]
-        return uri
+    def search(self, top_hits):
+        hits_uri = []
+        not_found = 0
+        for hit in top_hits:
+            try:
+                hits_uri.append(self._sp.search(q=f"track:{hit}", market="US")[
+                    'tracks']['items'][0]["uri"])
+            except:
+                # If song not found
+                print(f"'{hit}' is not in Spotify.😔")
+                not_found += 1
+        if not_found:
+            print(f"Could not find {not_found} hit(s) in Spotify")
+        else:
+            print("All track found in Spotify")
+        return hits_uri
 
     def create_playlist(self, name, public=False):
         playlist = self._sp.user_playlist_create(user=self._sp.current_user()['id'],
@@ -55,30 +67,18 @@ def get_top_hits(date: str):
 
 
 if __name__ == "__main__":
+    sp = Spotify_API()
+    
     year = input("Enter the year of the hits: ")
     month = input("Enter the month of the hits in 'XX' format: ")
     day = input("Enter the day of the hits in 'XX' format: ")
-
     date = f"{year}-{month}-{day}"
-    top_hits = get_top_hits(date)
-    sp = Spotify_API()
-    hits_uri = []
-    not_found = 0
-    for hit in top_hits:
-        try:
-            hits_uri.append(sp.search(hit))
-        except:
-            # If song not found
-            print(f"'{hit}' is not in Spotify.😔")
-            not_found += 1
-    if not_found:
-        print(f"Could not find {not_found} hit(s) in Spotify")
-    else:
-        print("All track found in Spotify")
 
+    top_hits = get_top_hits(date)
+    hits_uri = sp.search()
+    
     playlist = sp.create_playlist(name=f"{date} Top Hits")
     print(f"'{date} Top Hits' playlist is created")
-
 
     # Add tracks to the new playlist
     sp.add_song_to_playlist(playlist=playlist, tracks_uri=hits_uri)
