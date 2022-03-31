@@ -3,3 +3,7 @@
 __pycache__
 passwords_data.json
 .env
+env
+.cache
+token.txt
+test.py
