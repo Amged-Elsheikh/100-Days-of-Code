@@ -53,7 +53,7 @@ def send_email(message: str) -> None:
         connection.login(user=MY_EMAIL, password=PASSWORD)
         connection.sendmail(from_addr=MY_EMAIL,
                             to_addrs="amgedelshiekh@gmail.com",
-                            msg=f"{message}")
+                            msg=message)
 
                             
 def track_coin(Coins: dict, comparing_period=24, trigger_percent=0.08, news_count=3):
