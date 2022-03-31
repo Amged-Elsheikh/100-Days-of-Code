@@ -26,14 +26,14 @@ if __name__ == '__main__':
     date_from = date_format(datetime.now() + timedelta(days=1))
     date_to = date_format(datetime.now() + timedelta(days=6*30))
     optional_queries = {
-        "nights_in_dst_from": 30,
-        "nights_in_dst_to": 60,
+        "nights_in_dst_from": 21,
+        "nights_in_dst_to": 30,
         "adults": 1,
         "selected_cabins": "M",
         "curr": "JPY",
         "limit": 20,
         "flight_type": "round",
-        "sortBy": "price",
+        "sort": "quality",
     }
     data_manager = DataManager()
 
