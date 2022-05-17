@@ -7,8 +7,10 @@ from bs4 import BeautifulSoup
 class ProductDetails:
     def __init__(self, url):
         self._id = url
+        
         headers = {"Accept-Language":"en-JP,en;q=0.9,ja-JP;q=0.8,ja;q=0.7,ar-JP;q=0.6,ar;q=0.5,en-GB;q=0.4,en-US;q=0.3",
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36"}
+
         response = requests.get(self._id, headers=headers) 
         response.raise_for_status()
         self._soup = BeautifulSoup(response.content, "lxml")

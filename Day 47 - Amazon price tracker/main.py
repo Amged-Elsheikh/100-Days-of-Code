@@ -1,12 +1,42 @@
-from ProductDetails import ProductDetails
 import os
-from dotenv import load_dotenv
+import re
 import smtplib
+
+from dotenv import load_dotenv
+
+from ProductDetails import ProductDetails
 
 load_dotenv()
 
+# Service provider email info
 MY_EMAIL = os.getenv('MY_EMAIL')
 PASSWORD = os.getenv('PASSWORD')
+
+
+def user_input():
+    user_name = input('What shall we call you?/n')
+    phone_number = input(
+        "(Optional) Please write your sudan phone number/n. (use numbers only)")
+    if phone_number and phone_number != re.match['^[0-9]{10}$'][0]:
+        print("Invalid Phone number.")
+        print("We will not register your phone number")
+        phone_number = ""
+
+    email_patterns = "^[^@|\s]*@[^@|\s]*\.[^@|\s]*$"
+    user_email = input('Please enter your email address./n')
+    if user_email != re.match(email_patterns, user_email):
+        raise "Invalid email address"
+
+    product_url = input("Please write the full amazon url including 'https'/n")
+    if not product_url.startswith("https://"):
+        raise "write full url"
+
+    target_price = input(
+        "what is the maximum amount of money you are willing to pay for the product (Use default website currency value)?/n")
+    price_patterns = '^[0-9]*\.*[0-9]*$'
+    if target_price != re.match(price_patterns, target_price):
+        raise "Invalid price"
+    return user_name, phone_number, user_email, product_url, int(target_price)
 
 
 def send_email(message: str) -> None:
@@ -28,5 +58,4 @@ if __name__ == '__main__':
     if item.price <= desired_price:
         message = f"Subject:Price Drop Alert\n\n{item.name} price has gone below {desired_price}{item.price_unit}. Now the price is {item.price_details} only. Maybe you can consider buying now. Go to the URL\n{item.get_url()}."
         message = message.encode("utf-8")
-
         send_email(message)
