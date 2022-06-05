@@ -45,7 +45,7 @@ class InstaManager:
         sleep(3)
         # Open the followers pop-up window
         self.driver.find_element_by_xpath(
-            '//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a/div').click()
+            '//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a').click()
         sleep(3)
         # Expand the pop up window to get as much followers as possible
         try:
