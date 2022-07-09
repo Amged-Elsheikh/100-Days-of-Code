@@ -1,5 +1,10 @@
+import datetime as dt
+
+
 class FlightData:
-    #This class is responsible for structuring the flight data.
+    """This class is responsible for structuring the flight data by creating an object\
+        that can handle important information."""
+
     def __init__(self, flight_data):
         self.flight_data = flight_data
         self.price = flight_data['price']
@@ -12,10 +17,10 @@ class FlightData:
         self.fare_details = flight_data['fare']
         self.website_entry = flight_data['deep_link']
         self.route = flight_data['route']
-        self.flight_date = self.route[0]['local_departure']
-        self.return_arrival = self.route[-1]['local_arrival']
+        self.departure_date = self.route[0]['local_departure'][:16].replace("T", " ")
+        self.return_arrival = self.route[-1]['local_arrival'][:16].replace("T", " ")
         self.deep_link = flight_data['deep_link']
-    
+
     @property
     def link(self):
         import webbrowser
