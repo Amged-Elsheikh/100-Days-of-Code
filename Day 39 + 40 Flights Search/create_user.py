@@ -1,5 +1,7 @@
-import csv
 import os
+import re
+
+import pandas as pd
 
 if __name__ == "__main__":
     day = "39 + 40"
@@ -7,16 +9,44 @@ if __name__ == "__main__":
         for path in os.listdir():
             if day in path:
                 os.chdir(os.path.join(os.getcwd(), path))
-    
-    with open('users.csv', 'a') as csv_file:
-        fieldnames = ["First Name", "Last Name", "Email"]
-        csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        first_name = input("Write your first name: ")
-        last_name = input("Write your last name: ")
-        email = input("Write your email address: ")
-        info = {
-            "First Name": first_name,
-            "Last Name": last_name,
-            "Email": email
-        }
-        csv_writer.writerow(info)
+
+
+class User:
+
+    def __init__(self):
+        self.first_name = input("Write your first name: ")
+        self.last_name = input("Write your last name: ")
+        while True:
+            regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+            self.email = input("Write your email address: ")
+            if re.fullmatch(regex, self.email):
+                break
+            else:
+                print("\nWrong email adress.")
+
+
+    def add_user(self):
+        file = pd.read_csv("users.csv")
+        # Check if the email is used
+        duplicated = file.loc[file['Email'] == self.email]
+        # When the email is new
+        if not bool(len(duplicated)):
+            data = {'First Name': self.first_name,
+                    "Last Name": self.last_name,
+                    'Email': self.email}
+
+            file = file.append(data, ignore_index=True)
+            file.to_csv("users.csv", index=False)
+        if bool(len(duplicated)):
+            check = input("Email is already used, do you want to update information?[Y/N]\n")
+            if check.lower()=="n":
+                pass
+            elif check.lower()=="y":
+                file[duplicated] = [self.first_name, self.last_name, self.email]
+            else:
+                print(f"User inputed {check}. Please input [y/n].\n")
+                self.add_user()
+
+if __name__ == '__main__':
+    a = User()
+    a.add_user()

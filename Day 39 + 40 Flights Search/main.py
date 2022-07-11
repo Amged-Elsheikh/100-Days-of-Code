@@ -36,6 +36,7 @@ if __name__ == '__main__':
         "curr": "JPY",
         "limit": 20,
         "flight_type": "round",
+        "max_stopovers":4,
         "sort": "price",
     }
     
