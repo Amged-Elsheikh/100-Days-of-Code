@@ -1,0 +1,220 @@
+/*************************** Tags ***************************/
+
+body {
+    padding-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-family: 'Montserrat';
+}
+
+body {
+    text-align: center;
+}
+
+.big-heading {
+    line-height: 1.5;
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding: 5% 10% 5% 0%;
+}
+
+.container-fluid {
+    padding: 7% 15%
+}
+
+/* Section */
+
+.colored-section {
+    background-color: #fe3c72;
+    color: #fff
+}
+
+.white-section {
+    background-color: #fff
+}
+
+/* ************************** */
+
+/* Navigation Bar */
+
+.navbar {
+    padding-bottom: 2.5rem;
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display';
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-size: 1.5rem;
+    font-weight: 100;
+}
+
+.nav-item {
+    padding: 0 18px;
+}
+
+/* Title */
+#title {
+    
+    color: #F9F9F9;
+    padding-top: 0;
+    text-align: left;
+}
+
+#title .container-fluid {
+    padding-top: 3%
+}
+.title-image {
+    position: absolute;
+    width: 40%;
+    transform: rotate(25deg);
+    right: 50%
+}
+
+
+
+.download-button {
+    margin: 5% 2% 3% 0%;
+}
+
+.title-image-container {
+    position: relative;
+}
+
+
+
+@media (max-width: 991.9px) {
+    #title {
+        text-align: center;
+        padding-bottom: 3%
+    }
+
+    .title-image {
+        position: static;
+        transform: rotate(0);
+        width: 40%;
+    }
+
+    .download-button {
+        margin-top: 3%;
+    }
+
+    .title-text {
+        padding: 7% 14%;
+    }
+}
+
+/* Features */
+
+#features {
+    background-color: #fff;
+    position: relative;
+}
+
+.feature-title {
+    font-size: 1.5rem
+}
+
+.feature-description {
+    color: #8f8f8f
+}
+
+.feature-box {
+    padding: 5%
+}
+
+.feature-icon {
+    color: #E97777;
+    margin-bottom: 10%
+}
+
+.feature-icon:hover {
+    color: #fe3c72
+}
+
+/*  Testimonials  */
+
+#testimonials {
+    background-color: #E97777;
+    color: #F9F9F9;
+}
+
+.testimonial-text {
+    font-size: 2rem;
+}
+
+.testimonial-image {
+    width: 10%;
+    border-radius: 100%;
+    margin-top: 20px
+}
+
+/* Press */
+
+#press {
+    background-color: #E97777;
+    color: #F9F9F9;
+    
+}
+
+.press-image {
+    width: 15%;
+    margin: 0px 20px;
+}
+
+/* pricing */
+
+pricing-header {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.subscription-name {
+    font-size: 1.5rem;
+}
+
+.subscription-details {
+    color: #8f8f8f
+}
+
+.cards-div {
+    padding-top: 5%
+}
+
+/* Call To Action */
+
+#cta {
+    
+    color: #fff;
+    
+}
+
+.cta-download-button {
+    margin: 5% 1%
+}
+
+/* ******************* */
+#footer {
+    background-color: #fff;
+}
+
+.sns-link {
+    margin: 1%;
+}
+
+.fa-twitter {
+    color: #00acee
+}
+
+.fa-facebook-f {
+    color: #3b5998
+}

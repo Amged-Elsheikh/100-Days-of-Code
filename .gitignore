@@ -7,3 +7,5 @@ env
 .cache
 token.txt
 test.py
+*.png
+*.jpg
