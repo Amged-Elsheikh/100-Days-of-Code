@@ -64,7 +64,7 @@ body {
 
 /* Title */
 #title {
-    
+
     color: #F9F9F9;
     padding-top: 0;
     text-align: left;
@@ -73,6 +73,11 @@ body {
 #title .container-fluid {
     padding-top: 3%
 }
+
+.title-image-container {
+    position: relative;
+}
+
 .title-image {
     position: absolute;
     width: 40%;
@@ -80,17 +85,9 @@ body {
     right: 50%
 }
 
-
-
 .download-button {
     margin: 5% 2% 3% 0%;
 }
-
-.title-image-container {
-    position: relative;
-}
-
-
 
 @media (max-width: 991.9px) {
     #title {
@@ -163,7 +160,7 @@ body {
 #press {
     background-color: #E97777;
     color: #F9F9F9;
-    
+
 }
 
 .press-image {
@@ -193,9 +190,9 @@ pricing-header {
 /* Call To Action */
 
 #cta {
-    
+
     color: #fff;
-    
+
 }
 
 .cta-download-button {
