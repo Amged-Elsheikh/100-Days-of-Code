@@ -1,0 +1,51 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Library{% endblock %}
+{% block html %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"
+    integrity="sha512-3M00D/rn8n+2ZVXBO9Hib0GKNpkm8MSUU/e2VNthDyBYxKWG+BftNYYcuEjXlyrSO637tidzMBXfE7sQm0INUg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+{% block content %}
+<div class="container-fluid ml-3 mr-3">
+    <h1>My Library</h1>
+    {% if all_books|length > 0 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col-2">Title</th>
+                <th scope="col-2">Author</th>
+                <th scope="col-2">Rating</th>
+                <th scope="col-2">Edit Rating</th>
+                <th scope="col-2">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in all_books %}
+            <tr>
+                <td>
+                    <h3>{{ book.book_name }}</h3>
+                </td>
+                <td>
+                    <h3>{{ book.author }}</h3>
+                </td>
+                <td>
+                    <h3>{{ book.rating }}</h3>
+                </td>
+                <td><a href="{{ url_for('edit', id=book._id) }}">
+                    <i class="fas fa-user-edit fa-3x"></i></a>
+                </td>
+                <td><a href="{{ url_for('delete', id=book._id) }}">
+                    <i class="fa fa-trash fa-3x"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h3>No Books</h3>
+    {% endif %}
+
+    <a href="{{ url_for('add') }}">Add New Book</a>
+</div>
+{% endblock %}
