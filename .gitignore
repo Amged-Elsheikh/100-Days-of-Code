@@ -9,3 +9,4 @@ token.txt
 test.py
 *.png
 *.jpg
+*.db
