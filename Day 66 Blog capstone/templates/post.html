@@ -1,39 +1,83 @@
 {% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('{{post.img_url}}')">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-8 col-md-10 mx-auto">
-				<div class="post-heading">
-					<h1>{{post.title}}</h1>
-					<h2 class="subheading">{{post.subtitle}}</h2>
-					<span class="meta">Posted by
-              <a href="#">{{post.author}}</a>
-              on {{post.date}}</span>
-          </div>
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-heading">
+          <h1>{{post.title}}</h1>
+          <h2 class="subheading">{{post.subtitle}}</h2>
+          <span class="meta">Posted by
+            <a href="#">{{post.author.username.title()}}</a>
+            on {{post.date}}</span>
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- Post Content -->
-  <article>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <p>
-            {{post.body| safe }}
-          </p>
-           <hr>
-           <div class="clearfix">
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <p>{{post.body| safe }}</p>
+        <hr>
+        <div class="clearfix">
+          {% if current_user.id == post.author.id %}
           <a class="btn btn-primary float-right" href="{{ url_for('edit_post', post_id=post.id) }}">Edit Post</a>
+          {% endif %}
         </div>
-          </div>
       </div>
     </div>
-  </article>
+      <!-- <div class="col-lg-8 col-md-10 mx-auto comment row">
+        <ul class="commentList">
+          {% for comment in post.comments: %}
+          <li>
+            <div class="commenterImage">
+              <img src="{{ comment.commented_author.email | gravatar }}" class="col-4" />
+            </div>
+            <div class="commentText">
+              {{comment.comment|safe}}
+              <span class="date sub-text">{{comment.commented_author.username}}</span>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div> -->
 
-  <hr>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+            <div class="card-body p-4">
+              {% for comment in post.comments: %}
+              <div class="card mb-4">
+                <div class="card-body">
+                  {{comment.comment|safe}}
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                      <img src="{{ comment.commented_author.email | gravatar }}" alt="avatar" width="25"
+                        height="25" />
+                      <p class="small mb-0 ms-2">{{comment.commented_author.username}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8 col-md-10 mx-auto comment">
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='comment_text') }}
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+      </div>
+    </div>
+</article>
+<hr>
 {% include "footer.html" %}
